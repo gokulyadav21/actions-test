@@ -32,7 +32,7 @@ def validate_query(query):
     
     return True
 
-file_path = 'actions-test/configmap-vmalertrules.yaml'
+file_path = 'configmap-vmalertrules.yaml'
 query_lines = extract_query_lines(file_path)
 for idx, line in enumerate(query_lines, start=1):
     if validate_query(line):
