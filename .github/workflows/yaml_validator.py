@@ -1,4 +1,5 @@
 import subprocess
+import sys
 
 def extract_query_lines(file_path):
     grep_command = ["grep", "^ *query:", file_path]
@@ -37,5 +38,7 @@ query_lines = extract_query_lines(file_path)
 for idx, line in enumerate(query_lines, start=1):
     if validate_query(line):
         print(f"Query line {idx} is valid: {line}")
+        sys.exit(0)
     else:
         print(f"Query line {idx} is invalid: {line}")
+        sys.exit(1)
