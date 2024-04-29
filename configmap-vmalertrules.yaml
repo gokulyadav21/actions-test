@@ -92,4 +92,3 @@ data:
     annotations:
       description:  Error has occurred when Matchmaker is trying to communicate with Kube API server.
       summary: This alert will trigger if there is error in communicating with Kube API server.
-    
