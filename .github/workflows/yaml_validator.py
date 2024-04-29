@@ -16,29 +16,39 @@ def extract_query_lines(file_path):
         print(f"Error: {e}")
         return []
 
-def validate_query(query):
+def validate_query(query, idx):
+    errors = []
+
     # Check if there are equal number of opening and closing brackets
     if query.count('(') != query.count(')'):
-        return False
-    
+        errors.append("Unbalanced parentheses")
+
     # Check if there are equal number of single quotes
     if query.count("'") % 2 != 0:
-        return False
-    
+        errors.append("Unbalanced single quotes")
+
     # Check if there are equal number of double quotes
     if query.count('"') % 2 != 0:
+        errors.append("Unbalanced double quotes")
+
+    if errors:
+        print(f"Query line {idx} is invalid: {query}")
+        for error in errors:
+            print(f"    - {error}")
         return False
-    
-    # Add more validation checks as needed
-    
-    return True
+    else:
+        print(f"Query line {idx} is valid: {query}")
+        return True
 
 file_path = 'configmap-vmalertrules.yaml'
 query_lines = extract_query_lines(file_path)
+invalid_queries = []
+
 for idx, line in enumerate(query_lines, start=1):
-    if validate_query(line):
-        print(f"Query line {idx} is valid: {line}")
-        sys.exit(0)
-    else:
-        print(f"Query line {idx} is invalid: {line}")
-        sys.exit(1)
+    if not validate_query(line, idx):
+        invalid_queries.append(line)
+
+if invalid_queries:
+    sys.exit(1)
+else:
+    sys.exit(0)
