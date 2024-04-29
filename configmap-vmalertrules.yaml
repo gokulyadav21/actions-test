@@ -12,7 +12,7 @@ data:
     filter:
     - query:
         query_string:
-          query: 'log: "D400 - Doesn't Removed old metrics" AND application_name: s3uploader'
+          query: 'log: "D400 - Doesn''t Removed old metrics" AND application_name: s3uploader'
     alert: my_alerts.AlertManager
     labels:
       log_ingestion_string: 'D400 - Removed old metrics'
@@ -83,7 +83,7 @@ data:
     filter:
     - query:
         query_string:
-          query: '(log:"Configured service account doesn't have access. Service account may have been revoked. Unauthorized") AND (application_name: matchmaker) AND (site_name: caamcc100)'
+          query: '(log:"Configured service account doesn''t have access. Service account may have been revoked. Unauthorized") AND (application_name: matchmaker) AND (site_name: caamcc100)'
     alert: my_alerts.AlertManager
     labels:
       severity: info
