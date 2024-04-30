@@ -2,89 +2,77 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: configmap-vmalertrules
+  name: configmap
 data:
   rule_file_vm.yaml: |+
-    name: VMAgentLocalDiskLimitReached
+    name: DiskLimitReached
     type: any
     index: logstash-*
-    query_key: site_name
+    query_key: name
     filter:
     - query:
         query_string:
           query: 'log: "D400 - Doesn''t Removed old metrics" AND application_name: s3uploader'
-    alert: my_alerts.AlertManager
+    alert: my_alerts
     labels:
       log_ingestion_string: 'D400 - Removed old metrics'
       severity: major
       kafka: 'false'
       smart_alert: 'false'
-      host_impacted:
-      component: 'telemetry'
-      remediation: 'true'
-      alertsrc: ElasticSearch
       wikilink:
     annotations:
-      description: VMAgent - Error while sending files to S3 and Local Ephemeral storage reached Limit.
-      summary: VMAgent - Error while sending files to S3 and Local Ephemeral storage reached Limit.
-    nextrulename: VMAgentSNSPublishError
+      description: Error while sending files to S3 and Local Ephemeral storage reached Limit.
+      summary: Error while sending files to S3 and Local Ephemeral storage reached Limit.
+    nextrulename: SNSPublishError
     type: any
     index: logstash-*
-    query_key: vcmts_ppod
+    query_key: name
     filter:
     - query:
         query_string:
           query: 'log: "Unable to Publish" AND (application_name: s3uploader)'
-    alert: my_alerts.AlertManager
+    alert: my_alerts
     labels:
       log_ingestion_string: 'Unable to Publish'
       severity: major
       kafka: 'false'
       smart_alert: 'false'
-      host_impacted:
-      component: 'telemetry'
-      remediation: 'true'
-      alertsrc: ElasticSearch
       wikilink:
     annotations:
-      description: VMAgent - Error Unable to Publish SNS after retries.
-      summary: VMAgent - Error Unable to Publish SNS after retries.
-    nextrulename: VMAgentScrapeTimeoutError
+      description: Error Unable to Publish SNS after retries.
+      summary: Error Unable to Publish SNS after retries.
+    nextrulename: ScrapeTimeoutError
     type: frequency
     index: logstash-*
     num_events: 30
     timeframe:
       minutes: 5
-    query_key: vcmts_ppod
+    query_key: name
     filter:
     - query:
         query_string:
           query: '(log:"from job vcmts_metrics_usperf" OR log:"from job vcmts_metrics_other" OR log:"from job vcmts_metrics_m") AND (log:"*error when  scraping") AND (log:"*TCP address timed out")  AND (application_name:"vmagent")'
-    alert: my_alerts.AlertManager
+    alert: my_alerts
     labels:
       log_ingestion_string: 'error when scraping,TCP address timed out'
       severity: major
       kafka: 'false'
       smart_alert: 'false'
-      host_impacted:
-      component: 'telemetry'
-      remediation: 'true'
-      alertsrc: ElasticSearch
       wikilink:
     annotations:
-      description: VMAgent - VCMTS Metrics scrape is getting timeout.
-      summary: VMAgent - VCMTS Metrics scrape is getting timeout.
-    nextrulename: MatchmakerKubeApiError
+      description: Metrics scrape is getting timeout.
+      summary: Metrics scrape is getting timeout.
+    nextrulename: ApiError
     type: any
     index: logstash-*
     realert:
       minutes: 10
-    query_key: namespace
+    query_key: name
     filter:
     - query:
         query_string:
           query: '(log:"Configured service account doesn''t have access. Service account may have been revoked. Unauthorized") AND (application_name: matchmaker) AND (site_name: caamcc100)'
-    alert: my_alerts.AlertManager
+    alert: my_alerts
     labels:
       severity: info
       alertsrc: ElasticSearch
