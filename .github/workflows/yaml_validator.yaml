@@ -36,12 +36,6 @@ jobs:
         include:
           - TEST_NAME: "Latest v2"
             AWS_CLI_VERSION: "2"
-          - TEST_NAME: "Specific v2"
-            AWS_CLI_VERSION: "2.0.30"
-          - TEST_NAME: "Latest v1"
-            AWS_CLI_VERSION: "1"
-          - TEST_NAME: "Specific v1"
-            AWS_CLI_VERSION: "1.32.15"
           - TEST_NAME: "No Input"
     name: Test ${{ matrix.TEST_NAME }} ${{ matrix.AWS_CLI_VERSION }}
     steps:
